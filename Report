@@ -1,0 +1,37 @@
+/* Project Report: Plants vs. Zombies
+
+Introduction:
+The project "Plants vs. Zombies" is a game development endeavor aimed at creating an engaging and entertaining gaming experience. Inspired by the popular game of the same name, our project focuses on implementing key features and mechanics of the original game while adding our own creative elements.
+
+Project Objectives:
+The primary objectives of our project are as follows:
+
+Develop a game that offers an immersive and enjoyable gaming experience for players.
+Implement the core gameplay mechanics, including planting various types of plants, defending against zombies, and progressing through different levels.
+Design visually appealing graphics and animations to enhance the overall aesthetic appeal of the game.
+Incorporate sound effects and background music to create an engaging audio experience.
+Implement a scoring system to track player performance and provide a sense of achievement.
+Technologies Used:
+To develop the Plants vs. Zombies game, we utilized the following technologies and tools:
+Programming Language: Java
+Game Development Framework: Java Swing
+Integrated Development Environment (IDE): Eclipse/IntelliJ
+Graphics and Animation: Java 2D Graphics
+Sound Effects: Java Sound API
+Game Mechanics and Features:
+Planting Mechanism: Players can select and place different types of plants strategically to defend against incoming waves of zombies.
+Zombie Waves: The game features multiple levels with increasing difficulty, each presenting waves of zombies with different abilities and strengths.
+Sun Collection: Players can collect sunlight resources, which act as currency to purchase and place plants on the game board.
+Plant Abilities: Each plant possesses unique abilities, such as shooting projectiles, slowing down zombies, or providing defensive barriers.
+Zombie Interactions: Zombies interact with plants in various ways, including destroying them, bypassing barriers, or becoming immobilized by plant abilities.
+Level Progression: As players successfully defend against zombie waves, they unlock new levels with more challenging gameplay.
+Power-ups and Bonuses: The game may include power-ups or bonuses that players can acquire to gain temporary advantages, such as extra resources or plant upgrades.
+Game Development Process:
+The game development process followed a systematic approach, including the following stages:
+Requirement Gathering: We identified the key features and mechanics of the original game and defined the scope of our project.
+Design and Planning: We created a game design document outlining the game's structure, mechanics, visual style, and audio elements.
+Implementation: We developed the game using Java Swing, implementing the core gameplay mechanics, graphics, animations, and audio components.
+Testing and Refinement: We conducted rigorous testing to identify and fix bugs, optimize performance, and ensure smooth gameplay.
+Iterative Development: We iteratively improved the game based on feedback, incorporating additional features and enhancing the overall player experience.
+Conclusion:
+In conclusion, our project "Plants vs. Zombies" aimed to recreate the enjoyable experience of the original game while adding our unique elements. Through the development process, we successfully implemented key features, including the planting mechanics, zombie interactions, level progression, and visual/audio elements. The project provided valuable insights into game development principles, programming techniques, and collaborative teamwork. The end result is an engaging and entertaining game that offers players an exciting Plants vs. Zombies experience. */
