@@ -1,4 +1,4 @@
-# Plants-vs-Zombies
+# Guardians-vs-Zombies
 small project for oop
 
 1.Open the preferred Integrated Development Environment (IDE) or text editor.
