@@ -4,11 +4,8 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseMotionListener;
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Random;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 
 public class GamePanel extends JLayeredPane implements MouseMotionListener {
@@ -19,9 +16,11 @@ public class GamePanel extends JLayeredPane implements MouseMotionListener {
     Image sunflowerImage;
     Image peaImage;
     Image freezePeaImage;
-
+    Image cherrybombImage;
     Image normalZombieImage;
     Image coneHeadZombieImage;
+    Image RunZombieImage;
+    Image NutImage;
     Collider[] colliders;
     
     ArrayList<ArrayList<Zombie>> laneZombies;
@@ -46,7 +45,7 @@ public class GamePanel extends JLayeredPane implements MouseMotionListener {
 
     public void setSunScore(int sunScore) {
         this.sunScore = sunScore;
-        sunScoreboard.setText(String.valueOf(sunScore));
+        sunScoreboard.setText(String.valueOf(sunScore)); // hiển thị bảng điểm số 
     }
 
     public GamePanel(JLabel sunScoreboard){
@@ -54,19 +53,21 @@ public class GamePanel extends JLayeredPane implements MouseMotionListener {
         setLayout(null);
         addMouseMotionListener(this);
         this.sunScoreboard = sunScoreboard;
-        setSunScore(150);  //pool avalie
+        setSunScore(150);  //thiết lập điểm số ban đầu
 
-        bgImage  = new ImageIcon(this.getClass().getResource("images/mainBG.png")).getImage();
+        bgImage  = new ImageIcon(this.getClass().getResource("images/mainBG(1).png")).getImage();
 
-        peashooterImage = new ImageIcon(this.getClass().getResource("images/plants/peashooter.gif")).getImage();
-        freezePeashooterImage = new ImageIcon(this.getClass().getResource("images/plants/freezepeashooter.gif")).getImage();
-        sunflowerImage = new ImageIcon(this.getClass().getResource("images/plants/sunflower.gif")).getImage();
-        peaImage = new ImageIcon(this.getClass().getResource("images/pea.png")).getImage();
-        freezePeaImage = new ImageIcon(this.getClass().getResource("images/freezepea.png")).getImage();
-
-        normalZombieImage = new ImageIcon(this.getClass().getResource("images/zombies/zombie1.png")).getImage();
-        coneHeadZombieImage = new ImageIcon(this.getClass().getResource("images/zombies/zombie2.png")).getImage();
-
+        peashooterImage = new ImageIcon(this.getClass().getResource("images/plants/2.gif")).getImage();
+        freezePeashooterImage = new ImageIcon(this.getClass().getResource("images/plants/3.gif")).getImage();
+        sunflowerImage = new ImageIcon(this.getClass().getResource("images/plants/1(1).gif")).getImage();
+        peaImage = new ImageIcon(this.getClass().getResource("images/1.png")).getImage();
+        freezePeaImage = new ImageIcon(this.getClass().getResource("images/2.png")).getImage();
+        NutImage = new ImageIcon(this.getClass().getResource("images/plants/5.gif")).getImage();
+        
+        normalZombieImage = new ImageIcon(this.getClass().getResource("images/zombies/1.gif")).getImage();
+        coneHeadZombieImage = new ImageIcon(this.getClass().getResource("images/zombies/2.gif")).getImage();
+        RunZombieImage = new ImageIcon(this.getClass().getResource("images/zombies/5.gif")).getImage();
+        
         laneZombies = new ArrayList<>();
         laneZombies.add(new ArrayList<>()); //line 1
         laneZombies.add(new ArrayList<>()); //line 2
@@ -84,10 +85,10 @@ public class GamePanel extends JLayeredPane implements MouseMotionListener {
         colliders = new Collider[45];
         for (int i = 0; i < 45; i++) {
             Collider a = new Collider();
-            a.setLocation(44 + (i%9)*100,109 + (i/9)*120);
+            a.setLocation(44 + (i%9)*100,109+(i/9)*120);
             a.setAction(new PlantActionListener((i%9),(i/9)));
             colliders[i] = a;
-            add(a,new Integer(0));
+            add(a, Integer.valueOf(0));
         }
 
         //colliders[0].setPlant(new FreezePeashooter(this,0,0));
@@ -95,21 +96,21 @@ public class GamePanel extends JLayeredPane implements MouseMotionListener {
         colliders[9].setPlant(new Peashooter(this,0,1));
         laneZombies.get(1).add(new NormalZombie(this,1));*/
 
-        activeSuns = new ArrayList<>();
+      
 
         redrawTimer = new Timer(25,(ActionEvent e) -> {
-            repaint();
+            repaint(); // làm mới hình ảnh (FPS): tốc độ làm mới khung hình 
         });
         redrawTimer.start();
 
         advancerTimer = new Timer(60,(ActionEvent e) -> advance());
         advancerTimer.start();
-
+        activeSuns = new ArrayList<>();
         sunProducer = new Timer(5000,(ActionEvent e) -> {
             Random rnd = new Random();
             Sun sta = new Sun(this,rnd.nextInt(800)+100,0,rnd.nextInt(300)+200);
             activeSuns.add(sta);
-            add(sta,new Integer(1));
+            add(sta, Integer.valueOf(1));
         });
         sunProducer.start();
 
@@ -134,11 +135,11 @@ public class GamePanel extends JLayeredPane implements MouseMotionListener {
 
     private void advance(){
         for (int i = 0; i < 5 ; i++) {
-            for(Zombie z : laneZombies.get(i)){
+            for(Zombie z : laneZombies.get(i)){ // trả danh sách zombie trong làn i 
                 z.advance();
             }
 
-            for (int j = 0; j < lanePeas.get(i).size(); j++) {
+            for (int j = 0; j < lanePeas.get(i).size(); j++) { // trả ra các hạt pea bắn zombie 
                 Pea p = lanePeas.get(i).get(j);
                 p.advance();
             }
@@ -150,6 +151,12 @@ public class GamePanel extends JLayeredPane implements MouseMotionListener {
         }
 
     }
+   
+   
+
+   
+
+    
 
     @Override
     protected void paintComponent(Graphics g) {
@@ -162,23 +169,30 @@ public class GamePanel extends JLayeredPane implements MouseMotionListener {
             if(c.assignedPlant != null){
                 Plant p = c.assignedPlant;
                 if(p instanceof Peashooter){
-                    g.drawImage(peashooterImage,60 + (i%9)*100,129 + (i/9)*120,null);
+                    g.drawImage(peashooterImage,20 + (i%9)*100,80 + (i/9)*120,null);// tọa độ để vẽ cây bắn bth
                 }
                 if(p instanceof FreezePeashooter){
-                    g.drawImage(freezePeashooterImage,60 + (i%9)*100,129 + (i/9)*120,null);
+                    g.drawImage(freezePeashooterImage,20 + (i%9)*100,80 + (i/9)*120,null);// tọa độ vẽ cây bắn frezze
                 }
                 if(p instanceof Sunflower){
-                    g.drawImage(sunflowerImage,60 + (i%9)*100,129 + (i/9)*120,null);
+                    g.drawImage(sunflowerImage,15 + (i%9)*100,70 + (i/9)*120,null); // tọa độ vẽ bông mặt trời                
                 }
+                if(p instanceof Nut){
+                    g.drawImage(NutImage,20 + (i%9)*100,80 + (i/9)*120,null );
+                }
+                
+
             }
         }
 
         for (int i = 0; i < 5 ; i++) {
-            for(Zombie z : laneZombies.get(i)){
+            for(Zombie z : laneZombies.get(i)){ // trả danh sách zombie trên làn i 
                 if(z instanceof NormalZombie){
-                    g.drawImage(normalZombieImage,z.posX,109+(i*120),null);
+                    g.drawImage(normalZombieImage,z.posX,125+(i*120),null); // tọa độ vẽ normal zombie 
                 }else if(z instanceof ConeHeadZombie){
-                    g.drawImage(coneHeadZombieImage,z.posX,109+(i*120),null);
+                    g.drawImage(coneHeadZombieImage,z.posX,85+(i*120),null); // tọa độ vẽ coneheadzombie
+                }else{
+                    g.drawImage(RunZombieImage, z.posX, 90+(i*120), null);
                 }
             }
 
@@ -204,7 +218,7 @@ public class GamePanel extends JLayeredPane implements MouseMotionListener {
 
     }
 
-    class PlantActionListener implements ActionListener {
+    class PlantActionListener implements ActionListener { // thực hiện hành động trồng cây 
 
         int x,y;
 
@@ -226,7 +240,7 @@ public class GamePanel extends JLayeredPane implements MouseMotionListener {
                     colliders[x + y * 9].setPlant(new Peashooter(GamePanel.this, x, y));
                     setSunScore(getSunScore()-100);
                 }
-            }
+            }// đoạn mã đảm bảo người chơi chọn cây trồng đủ tiền để trồng 
 
             if(activePlantingBrush == GameWindow.PlantType.FreezePeashooter){
                 if(getSunScore() >= 175) {
@@ -234,7 +248,14 @@ public class GamePanel extends JLayeredPane implements MouseMotionListener {
                     setSunScore(getSunScore()-175);
                 }
             }
-            activePlantingBrush = GameWindow.PlantType.None;
+            if(activePlantingBrush == GameWindow.PlantType.Nut){
+                if(getSunScore() >= 75) {
+                    colliders[x + y * 9].setPlant(new Nut(GamePanel.this, x, y));
+                    setSunScore(getSunScore()-75);
+                }
+            }
+            
+            activePlantingBrush = GameWindow.PlantType.None; // về trạng thái không có loại cây nào được chồng
         }
     }
 
@@ -244,12 +265,12 @@ public class GamePanel extends JLayeredPane implements MouseMotionListener {
     }
 
     @Override
-    public void mouseMoved(MouseEvent e) {
+    public void mouseMoved(MouseEvent e) { // cập nhật vị trí chuột trên giao diện
         mouseX = e.getX();
         mouseY = e.getY();
     }
     static int progress = 0;
-    public static void setProgress(int num) {
+    public static void setProgress(int num) { // điều kiện để kết thúc game 
         progress = progress + num;
         System.out.println(progress);
         if(progress>=150) {
@@ -267,3 +288,5 @@ public class GamePanel extends JLayeredPane implements MouseMotionListener {
         }
     }
 }
+
+

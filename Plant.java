@@ -1,6 +1,8 @@
 
 public abstract class Plant {
 
+   
+
     public int health = 200;
 
     public int x;
@@ -18,7 +20,8 @@ public abstract class Plant {
     public void stop(){}
     
     
-    public static void main(String[]args){}
+    
+    
 }
 
 

@@ -1,10 +1,15 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
 import java.io.*;
 import java.util.logging.Logger;
 
-public class LevelData {
-    static String Lvl = "1";
-   static String [][] Level = {{"NormalZombie"},{"NormalZombie","ConeHeadZombie"}};
-   static int [][][] LevelValue = {{{0,99}},{{0,49},{50,99}}} ;
+public class LevelData { //hỗ trợ đọc và ghi thông tin về cấp độ từ tệp tin"level.vbhv" để lưu trữ và cập nhật tiến độ
+   static String Lvl = "1";
+   static String [][] Level = {{"NormalZombie"},{"RunZombie","ConeHeadZombie"}};
+   static int [][][] LevelValue = {{{0,99}},{{0,49},{50,99}}} ; // chứa giá trị đại diện cho khoảng thời gian xuất hiện zombie trong từng cấp độ. 
    public LevelData() {
        try {
            File f = new File("Level.vbhv");
@@ -36,4 +41,3 @@ public class LevelData {
                
    }
 }
-
